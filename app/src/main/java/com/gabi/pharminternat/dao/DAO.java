@@ -78,6 +78,7 @@ public class DAO extends SQLiteOpenHelper {
         try
         {
             this.myDatabase = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+            //this.createDataBase(this.myDatabase);
 
         } catch (Exception e)
         {
