@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:clickable="false"
+    android:descendantFocusability="blocksDescendants">
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:clickable="false"
+        android:descendantFocusability="blocksDescendants">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:descendantFocusability="blocksDescendants">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/displayOrder"
+                android:text="14.14"
+                android:gravity="center_vertical"
+                android:layout_column="1"
+                android:layout_span="1"
+                android:maxWidth="40dip"
+                android:minWidth="40dip"
+                android:textSize="15dp"
+                android:clickable="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pharmaFileTitle"
+                android:text="Méthodes de séparation fondées sur l&apos;extraction des test"
+                android:ellipsize="end"
+                android:maxWidth = "255dip"
+                android:minWidth = "255dip"
+                android:elegantTextHeight="true"
+                android:layout_column="2"
+                android:layout_span="1"
+                android:maxLines="10"
+                android:textSize="15dp"
+                android:textAlignment="viewStart"
+                android:textIsSelectable="true"
+                android:clickable="false" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:id="@+id/review_counter"
+                android:text="1000"
+                android:layout_column="3"
+                android:layout_span="1"
+                android:textSize="15dp"
+                android:background="#03a9f4"
+                android:layout_gravity="center|right"
+                android:padding="5dp"
+                android:maxWidth="55dp"
+                android:minWidth="55dp"
+                android:textColor="#ffffff"
+                android:textAlignment="center"
+                android:clickable="false"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/last_review"
+                android:layout_alignEnd="@+id/review_counter"
+                android:layout_below="@+id/review_counter"
+                android:layout_gravity="right"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_span="4"
+                android:text="2004-01-01 02:34:56"
+                android:layout_column="1"
+                android:clickable="false"/>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

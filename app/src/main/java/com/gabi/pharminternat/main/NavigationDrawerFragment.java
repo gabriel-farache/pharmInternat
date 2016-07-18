@@ -1,4 +1,4 @@
-package com.example.gabi.pharminternat;
+package com.gabi.pharminternat.main;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -21,6 +21,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.gabi.main.R;
+import com.gabi.pharminternat.dao.DAO;
+import com.gabi.pharminternat.model.PharmaSection;
+
+import java.util.ArrayList;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -97,15 +103,16 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
+        ArrayList<PharmaSection> sections = DAO.getInstance(this.getActivity()).getPharamaSections();
+        ArrayList<String> sectionsTitles = new ArrayList<>();
+        for(PharmaSection section : sections){
+            sectionsTitles.add(section.getSection()+ ". "+section.getSectionTitle());
+        }
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+                sectionsTitles));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -124,7 +131,7 @@ public class NavigationDrawerFragment extends Fragment {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
-        // set a custom shadow that overlays the main content when the drawer opens
+        // set a custom shadow that overlays the com.gabi.pharaminternat.com.gabi.pharmaInternat.com.gabi.pharmInternat.com.com.gabi.pharaminternat.main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 

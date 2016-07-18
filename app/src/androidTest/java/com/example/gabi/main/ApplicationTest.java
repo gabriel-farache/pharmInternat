@@ -1,4 +1,4 @@
-package com.example.gabi.pharminternat;
+package com.example.gabi.main;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

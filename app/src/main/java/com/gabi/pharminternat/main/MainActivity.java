@@ -1,22 +1,29 @@
-package com.example.gabi.pharminternat;
+package com.gabi.pharminternat.main;
 
 import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.gabi.pharminternat.main.NavigationDrawerFragment;
+import com.example.gabi.main.R;
+import com.gabi.pharminternat.dao.DAO;
+import com.gabi.pharminternat.model.PharmaFile;
+import com.gabi.pharminternat.model.PharmaSection;
+import com.gabi.pharminternat.utils.PharmaFileAdapter;
+import com.gabi.pharminternat.utils.Utils;
+
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -44,30 +51,18 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
+        // update the com.gabi.pharaminternat.com.gabi.pharmaInternat.com.gabi.pharmInternat.com.com.gabi.pharaminternat.main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -85,6 +80,10 @@ public class MainActivity extends ActionBarActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private View rootView;
+        private ListView pharmaFileListView;
+        private TextView sectionTitle;
+        private ArrayList<PharmaFile> pharmaFiles;
 
         public PlaceholderFragment() {
         }
@@ -104,15 +103,44 @@ public class MainActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+            this.rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            this.sectionTitle = (TextView) this.rootView.findViewById(R.id.sectionTitle);
+            this.pharmaFileListView = (ListView) this.rootView.findViewById(R.id.pharmaFile_listView);
+            DAO dao = DAO.getInstance(this.getActivity());
+            int section = getArguments().getInt(ARG_SECTION_NUMBER);
+
+            PharmaSection pharmaSection = dao.getPharamaSection(section);
+            this.pharmaFiles = dao.getSectionPharamaFiles(section);
+            PharmaFileAdapter adapter = new PharmaFileAdapter(this.rootView.getContext(), this.pharmaFiles);
+            if (pharmaSection != null) {
+                this.sectionTitle.setText(pharmaSection.getSection() + ". " + pharmaSection.getSectionTitle());
+            }
+
+            this.pharmaFileListView.setAdapter(adapter);
+            this.pharmaFileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    PharmaFile pharmaFile = pharmaFiles.get(position);
+                    DAO dao = DAO.getInstance(view.getContext());
+                    TextView lastReview = (TextView) view.findViewById(R.id.last_review);
+                    TextView reviewCounter = (TextView) view.findViewById(R.id.review_counter);
+
+                    pharmaFile.incrementReviewCounter();
+
+                    reviewCounter.setText(pharmaFile.getReviewCounter() + "");
+                    lastReview.setText(Utils.getDateTime());
+
+                    dao.incrementReviewCounter(pharmaFile.getId());
+                    dao.setReviewDate(pharmaFile.getId());
+                }
+            });
+            return this.rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+
         }
     }
 
