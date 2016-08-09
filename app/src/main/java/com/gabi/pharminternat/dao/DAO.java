@@ -15,6 +15,7 @@ import com.gabi.pharminternat.utils.Utils;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by gabi on 14/07/16.
@@ -78,6 +79,12 @@ public class DAO extends SQLiteOpenHelper {
         try
         {
             this.myDatabase = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READWRITE);
+            try {
+                this.myDatabase.execSQL(Constant.DAO_QUERY_ALTER_TABLE_PHARMAFILE);
+            } catch (Exception e){
+               // e.printStackTrace();
+                System.err.println("TodoDate colulmn already exists");
+            }
             //this.createDataBase(this.myDatabase);
 
         } catch (Exception e)
@@ -168,10 +175,29 @@ public class DAO extends SQLiteOpenHelper {
         return pharmaSection;
     }
 
+
     public ArrayList<PharmaFile> getSectionPharamaFiles(Integer section){
-        ArrayList<PharmaFile> sectionPharmaFiles = new ArrayList<PharmaFile>();
         String [] whereClausesArgs = {section.toString()};
-        Cursor cursor = this.myDatabase.rawQuery(Constant.DAO_QUERY_SELECT_PHARMAFILES, whereClausesArgs);
+
+        return this.getPharamaFiles(Constant.DAO_QUERY_SELECT_PHARMAFILES, whereClausesArgs);
+    }
+
+    public ArrayList<PharmaFile> getTodoPharamaFiles(){
+        ArrayList<PharmaFile> todoPharmaFiles = new ArrayList<PharmaFile>();
+
+        try {
+            String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.currentMonday()),
+                    Utils.getDateTimeFromDate(Utils.nextMonday())};
+            todoPharmaFiles = this.getPharamaFiles(Constant.DAO_QUERY_SELECT_TODOFILES, whereClausesArgs);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return todoPharmaFiles;
+    }
+
+    private  ArrayList<PharmaFile> getPharamaFiles(String query, String [] whereClausesArgs) {
+        ArrayList<PharmaFile> sectionPharmaFiles = new ArrayList<PharmaFile>();
+        Cursor cursor = this.myDatabase.rawQuery(query, whereClausesArgs);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
@@ -182,14 +208,21 @@ public class DAO extends SQLiteOpenHelper {
                 int fileTitleColumnIndex = cursor.getColumnIndexOrThrow(Constant.pharmaFileFileTitleColumn);
                 int reviewCounterColumnIndex = cursor.getColumnIndexOrThrow(Constant.pharmaFileReviewCounterColumn);
                 int lastReviewColumnIndex = cursor.getColumnIndexOrThrow(Constant.pharmaFileLastReviewColumn);
+                int todoDateColumnIndex = cursor.getColumnIndexOrThrow(Constant.pharmaFileTodoDateColumn);
 
+                Date todoDate = null;
+                try{
+                    todoDate = Utils.getDateTimeFromString(cursor.getString(todoDateColumnIndex));
+                } catch (NullPointerException e){
 
+                }
                 PharmaFile pharmaFile = new PharmaFile(cursor.getInt(idColumnIndex),
                         cursor.getInt(sectionColumnIndex),
                         cursor.getDouble(displayOrderColumnIndex),
                         cursor.getString(fileTitleColumnIndex),
                         cursor.getInt(reviewCounterColumnIndex),
-                        Utils.getDateTimeFromString(cursor.getString(lastReviewColumnIndex)));
+                        Utils.getDateTimeFromString(cursor.getString(lastReviewColumnIndex)),
+                        todoDate);
                 sectionPharmaFiles.add(pharmaFile);
             }catch(IllegalArgumentException iae){
                 //log error
@@ -223,6 +256,25 @@ public class DAO extends SQLiteOpenHelper {
         String [] whereClausesArgs = {Utils.getDateTime(), id.toString()};
         try {
             this.myDatabase.execSQL(Constant.DAO_QUERY_UPDATE_LAST_REVIEW_DATE, whereClausesArgs);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setTodoDate(Integer id) throws ParseException {
+        String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.nextMonday()), id.toString()};
+        try {
+            this.myDatabase.execSQL(Constant.DAO_QUERY_UPDATE_TODO_DATE, whereClausesArgs);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setTodoDate(String fileTitle) throws ParseException {
+        String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.nextMonday()), fileTitle};
+        System.out.println("---> "+whereClausesArgs[0] + "   "+whereClausesArgs[1]);
+        try {
+            this.myDatabase.execSQL(Constant.DAO_QUERY_UPDATE_TODO_DATE_FROM_TITLE, whereClausesArgs);
         } catch (Exception e){
             e.printStackTrace();
         }

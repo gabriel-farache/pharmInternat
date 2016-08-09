@@ -2,6 +2,7 @@ package com.gabi.pharminternat.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -17,9 +18,13 @@ public class Utils {
         return dateFormat.format(date);
     }
 
-    public static Date getDateTimeFromString(String dateTime) throws ParseException {
+    public static Date getDateTimeFromString(String dateTime) throws ParseException, NullPointerException {
+        if(dateTime == null) {
+            throw new NullPointerException("DateTime is null");
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
         return dateFormat.parse(dateTime);
     }
 
@@ -27,5 +32,30 @@ public class Utils {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(dateTime);
+    }
+
+    public static Date currentMonday(){
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        return c.getTime();
+    }
+
+    public static Date nextMonday(){
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.set(Calendar.HOUR_OF_DAY, 23);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        c.set(Calendar.MILLISECOND, 0);
+        c.add(Calendar.DAY_OF_YEAR, 6);
+
+        return c.getTime();
     }
 }

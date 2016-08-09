@@ -13,14 +13,16 @@ public class PharmaFile {
     private String fileTitle;
     private int reviewCounter;
     private Date lastReview;
+    private Date todoDate;
 
-    public PharmaFile(int id, int section, double displayOrder, String fileTitle, int reviewCounter, Date lastReview) {
+    public PharmaFile(int id, int section, double displayOrder, String fileTitle, int reviewCounter, Date lastReview, Date todoDate) {
         this.id = id;
         this.section = section;
         this.displayOrder = displayOrder;
         this.fileTitle = fileTitle;
         this.reviewCounter = reviewCounter;
         this.lastReview = lastReview;
+        this.todoDate = todoDate;
     }
 
     public int getId() {
@@ -48,5 +50,17 @@ public class PharmaFile {
 
     public Date getLastReview() {
         return lastReview;
+    }
+
+    public Date getTodoDate() {
+        return this.todoDate;
+    }
+
+    public void setTodoDate(Date newTodoDate) {
+        this.todoDate = newTodoDate;
+    }
+
+    public void setLastReview(Date lastReview) {
+        this.lastReview = lastReview;
     }
 }

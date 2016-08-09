@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.gabi.main.R;
 import com.gabi.pharminternat.dao.DAO;
 import com.gabi.pharminternat.model.PharmaSection;
+import com.gabi.pharminternat.utils.Constant;
 
 import java.util.ArrayList;
 
@@ -108,6 +109,7 @@ public class NavigationDrawerFragment extends Fragment {
         for(PharmaSection section : sections){
             sectionsTitles.add(section.getSection()+ ". "+section.getSectionTitle());
         }
+        sectionsTitles.add(Constant.TODOSECTION+ ". Items à faire cette semaine");
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,

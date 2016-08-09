@@ -1,6 +1,7 @@
 package com.gabi.pharminternat.main;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,10 +22,13 @@ import com.example.gabi.main.R;
 import com.gabi.pharminternat.dao.DAO;
 import com.gabi.pharminternat.model.PharmaFile;
 import com.gabi.pharminternat.model.PharmaSection;
+import com.gabi.pharminternat.utils.Constant;
 import com.gabi.pharminternat.utils.PharmaFileAdapter;
 import com.gabi.pharminternat.utils.Utils;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -108,9 +113,16 @@ public class MainActivity extends ActionBarActivity
             this.pharmaFileListView = (ListView) this.rootView.findViewById(R.id.pharmaFile_listView);
             DAO dao = DAO.getInstance(this.getActivity());
             int section = getArguments().getInt(ARG_SECTION_NUMBER);
+            PharmaSection pharmaSection;
 
-            PharmaSection pharmaSection = dao.getPharamaSection(section);
-            this.pharmaFiles = dao.getSectionPharamaFiles(section);
+            if(section == Constant.TODOSECTION){
+                pharmaSection = new PharmaSection(Constant.TODOSECTION, "Item à faire cette semaine");
+                this.pharmaFiles = dao.getTodoPharamaFiles();
+            }else {
+                pharmaSection = dao.getPharamaSection(section);
+                this.pharmaFiles = dao.getSectionPharamaFiles(section);
+            }
+
             PharmaFileAdapter adapter = new PharmaFileAdapter(this.rootView.getContext(), this.pharmaFiles);
             if (pharmaSection != null) {
                 this.sectionTitle.setText(pharmaSection.getSection() + ". " + pharmaSection.getSectionTitle());
@@ -124,14 +136,25 @@ public class MainActivity extends ActionBarActivity
                     DAO dao = DAO.getInstance(view.getContext());
                     TextView lastReview = (TextView) view.findViewById(R.id.last_review);
                     TextView reviewCounter = (TextView) view.findViewById(R.id.review_counter);
-
+                    Date currDate = new Date();
+                    pharmaFile.setLastReview(currDate);
                     pharmaFile.incrementReviewCounter();
-
                     reviewCounter.setText(pharmaFile.getReviewCounter() + "");
                     lastReview.setText(Utils.getDateTime());
 
+                    if (pharmaFile.getTodoDate() != null &&
+                            pharmaFile.getTodoDate().after(Utils.currentMonday()) &&
+                            (pharmaFile.getTodoDate().before(Utils.nextMonday()) ||
+                                    pharmaFile.getTodoDate().equals(Utils.nextMonday())) &&
+                            currDate.before(pharmaFile.getTodoDate()) &&
+                            currDate.after(Utils.currentMonday())) {
+                        pharmaFileListView.getAdapter().getView(position, view, parent);
+                    }
+
                     dao.incrementReviewCounter(pharmaFile.getId());
                     dao.setReviewDate(pharmaFile.getId());
+
+
                 }
             });
             return this.rootView;

@@ -6,6 +6,8 @@ package com.gabi.pharminternat.utils;
 public class Constant {
     public static final String DAO_QUERY_TEST_DB = "SELECT * FROM PharmaSection";
 
+    public static final int TODOSECTION = 7;
+
     public static final String DAO_QUERY_DROP_PHARMASECTION = "DROP TABLE IF EXISTS PharmaSection ";
     public static final String DAO_QUERY_DROP_PHARMAFILE = "DROP TABLE IF EXISTS PharmaFile";
     public static final String DAO_QUERY_CREATE_TABLE_PHARMAFILE = "CREATE TABLE PharmaFile(id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -13,14 +15,22 @@ public class Constant {
             "displayOrder REAL NOT NULL," +
             "fileTitle TEXT NOT NULL," +
             "reviewCounter INT NOT NULL DEFAULT 0," +
-            "lastReview TEXT NOT NULL DEFAULT '2004-01-01 02:34:56')";
+            "lastReview TEXT NOT NULL DEFAULT '2004-01-01 02:34:56'," +
+            "todoDate TEXT)";
     public static final String DAO_QUERY_CREATE_TABLE_PHARMASECTION = "CREATE TABLE PharmaSection(section INT NOT NULL," +
             " sectionTitle TEXT NOT NULL)";
+
+    public static final String DAO_QUERY_ALTER_TABLE_PHARMAFILE = "ALTER TABLE PharmaFile ADD COLUMN todoDate TEXT";
+
     public static final String DAO_QUERY_SELECT_PHARMAFILES = "SELECT * FROM PharmaFile WHERE section = ? ORDER BY datetime(lastReview) ASC, displayOrder ASC";
     public static final String DAO_QUERY_SELECT_PHARMASECTIONS = "SELECT * FROM PharmaSection";
     public static final String DAO_QUERY_SELECT_PHARMASECTION = "SELECT * FROM PharmaSection where section= ?";
+    public static final String DAO_QUERY_SELECT_TODOFILES = "SELECT * FROM PharmaFile WHERE todoDate between ? and ? order by section ASC, displayOrder ASC";
+
     public static final String DAO_QUERY_UPDATE_REVIEW_COUNTER = "UPDATE PharmaFile SET reviewCounter = reviewCounter + 1 where id = ?";
     public static final String DAO_QUERY_UPDATE_LAST_REVIEW_DATE = "UPDATE PharmaFile SET lastReview = ? where id = ?";
+    public static final String DAO_QUERY_UPDATE_TODO_DATE = "UPDATE PharmaFile SET todoDate = ? where id = ?";
+    public static final String DAO_QUERY_UPDATE_TODO_DATE_FROM_TITLE = "UPDATE PharmaFile SET todoDate = ? where fileTitle = ?";
 
     public static final String pharmaSectionSectionColumn = "section";
     public static final String pharmaSectionSectionTitleColumn = "sectionTitle";
@@ -30,6 +40,7 @@ public class Constant {
     public static final String pharmaFileFileTitleColumn = "fileTitle";
     public static final String pharmaFileReviewCounterColumn = "reviewCounter";
     public static final String pharmaFileLastReviewColumn = "lastReview";
+    public static final String pharmaFileTodoDateColumn = "todoDate";
 
     public static final String[] DAO_QUERY_INSERTS_PHARMASECTION = {
             "INSERT INTO PharmaSection(section, sectionTitle) VALUES (1, 'Sciences mathématiques, physiques et chimiques')",
@@ -290,6 +301,7 @@ public class Constant {
             DAO_QUERY_INSERTS_PHARMAFILE_SECTION5,
             DAO_QUERY_INSERTS_PHARMAFILE_BACTEROVIRUS
     };
+
 
 
 }

@@ -18,13 +18,24 @@
             android:descendantFocusability="blocksDescendants">
 
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/file_id"
+                android:layout_column="1"
+                android:textSize="0dp"
+                android:layout_gravity="center|right"
+                android:padding="0dp"
+                android:maxWidth="0dp"
+                android:clickable="false"/>
+
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/displayOrder"
                 android:text="14.14"
                 android:gravity="center_vertical"
-                android:layout_column="1"
+                android:layout_column="2"
                 android:layout_span="1"
                 android:maxWidth="40dip"
                 android:minWidth="40dip"
@@ -37,10 +48,10 @@
                 android:id="@+id/pharmaFileTitle"
                 android:text="Méthodes de séparation fondées sur l&apos;extraction des test"
                 android:ellipsize="end"
-                android:maxWidth = "255dip"
-                android:minWidth = "255dip"
+                android:maxWidth = "200dip"
+                android:minWidth = "200dip"
                 android:elegantTextHeight="true"
-                android:layout_column="2"
+                android:layout_column="3"
                 android:layout_span="1"
                 android:maxLines="10"
                 android:textSize="15dp"
@@ -53,8 +64,7 @@
                 android:layout_height="30dp"
                 android:id="@+id/review_counter"
                 android:text="1000"
-                android:layout_column="3"
-                android:layout_span="1"
+                android:layout_column="4"
                 android:textSize="15dp"
                 android:background="#03a9f4"
                 android:layout_gravity="center|right"
@@ -64,6 +74,17 @@
                 android:textColor="#ffffff"
                 android:textAlignment="center"
                 android:clickable="false"/>
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:id="@+id/star_btn"
+                android:layout_column="5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/star_blank"
+                android:background="#00dfdfdf"
+                android:layout_gravity="center"
+                android:clickable="true" />
 
         </TableRow>
 
@@ -81,7 +102,7 @@
                 android:layout_gravity="right"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:layout_span="4"
+                android:layout_span="6"
                 android:text="2004-01-01 02:34:56"
                 android:layout_column="1"
                 android:clickable="false"/>
