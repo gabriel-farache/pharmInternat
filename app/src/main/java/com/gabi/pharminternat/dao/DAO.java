@@ -195,6 +195,20 @@ public class DAO extends SQLiteOpenHelper {
         return todoPharmaFiles;
     }
 
+    public ArrayList<PharmaFile> getLatePharamaFiles(){
+        ArrayList<PharmaFile> latePharmaFiles = new ArrayList<PharmaFile>();
+
+        try {
+            String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.currentMonday())};
+            latePharmaFiles = this.getPharamaFiles(Constant.DAO_QUERY_SELECT_LATEFILES, whereClausesArgs);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return latePharmaFiles;
+    }
+
+
+
     private  ArrayList<PharmaFile> getPharamaFiles(String query, String [] whereClausesArgs) {
         ArrayList<PharmaFile> sectionPharmaFiles = new ArrayList<PharmaFile>();
         Cursor cursor = this.myDatabase.rawQuery(query, whereClausesArgs);

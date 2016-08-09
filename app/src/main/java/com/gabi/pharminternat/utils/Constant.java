@@ -7,6 +7,10 @@ public class Constant {
     public static final String DAO_QUERY_TEST_DB = "SELECT * FROM PharmaSection";
 
     public static final int TODOSECTION = 7;
+    public static final int LATESECTION = 8;
+
+    public static final String TODOSECTIONTITLE = "Item à faire cette semaine";
+    public static final String LATESECTIONTITLE = "Items en retard";
 
     public static final String DAO_QUERY_DROP_PHARMASECTION = "DROP TABLE IF EXISTS PharmaSection ";
     public static final String DAO_QUERY_DROP_PHARMAFILE = "DROP TABLE IF EXISTS PharmaFile";
@@ -25,7 +29,8 @@ public class Constant {
     public static final String DAO_QUERY_SELECT_PHARMAFILES = "SELECT * FROM PharmaFile WHERE section = ? ORDER BY datetime(lastReview) ASC, displayOrder ASC";
     public static final String DAO_QUERY_SELECT_PHARMASECTIONS = "SELECT * FROM PharmaSection";
     public static final String DAO_QUERY_SELECT_PHARMASECTION = "SELECT * FROM PharmaSection where section= ?";
-    public static final String DAO_QUERY_SELECT_TODOFILES = "SELECT * FROM PharmaFile WHERE todoDate between ? and ? order by section ASC, displayOrder ASC";
+    public static final String DAO_QUERY_SELECT_TODOFILES = "SELECT * FROM PharmaFile WHERE todoDate between ? and ? order by datetime(lastReview) ASC, section ASC, displayOrder ASC";
+    public static final String DAO_QUERY_SELECT_LATEFILES = "SELECT * FROM PharmaFile WHERE Datetime(todoDate) < ? and Datetime(lastReview) < Datetime(todoDate) order by datetime(lastReview) ASC, section ASC, displayOrder ASC";
 
     public static final String DAO_QUERY_UPDATE_REVIEW_COUNTER = "UPDATE PharmaFile SET reviewCounter = reviewCounter + 1 where id = ?";
     public static final String DAO_QUERY_UPDATE_LAST_REVIEW_DATE = "UPDATE PharmaFile SET lastReview = ? where id = ?";

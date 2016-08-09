@@ -109,7 +109,9 @@ public class NavigationDrawerFragment extends Fragment {
         for(PharmaSection section : sections){
             sectionsTitles.add(section.getSection()+ ". "+section.getSectionTitle());
         }
-        sectionsTitles.add(Constant.TODOSECTION+ ". Items à faire cette semaine");
+        sectionsTitles.add(Constant.TODOSECTION+ ". "+Constant.TODOSECTIONTITLE);
+        sectionsTitles.add(Constant.LATESECTION+ ". "+Constant.LATESECTIONTITLE);
+
         mDrawerListView.setAdapter(new ArrayAdapter<String>(
                 getActionBar().getThemedContext(),
                 android.R.layout.simple_list_item_activated_1,

@@ -116,8 +116,11 @@ public class MainActivity extends ActionBarActivity
             PharmaSection pharmaSection;
 
             if(section == Constant.TODOSECTION){
-                pharmaSection = new PharmaSection(Constant.TODOSECTION, "Item à faire cette semaine");
+                pharmaSection = new PharmaSection(Constant.TODOSECTION, Constant.TODOSECTIONTITLE);
                 this.pharmaFiles = dao.getTodoPharamaFiles();
+            }else if(section == Constant.LATESECTION){
+                pharmaSection = new PharmaSection(Constant.LATESECTION, Constant.LATESECTIONTITLE);
+                this.pharmaFiles = dao.getLatePharamaFiles();
             }else {
                 pharmaSection = dao.getPharamaSection(section);
                 this.pharmaFiles = dao.getSectionPharamaFiles(section);
