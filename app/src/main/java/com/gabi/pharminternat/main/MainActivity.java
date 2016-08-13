@@ -1,7 +1,6 @@
 package com.gabi.pharminternat.main;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.gabi.pharminternat.main.NavigationDrawerFragment;
 import com.example.gabi.main.R;
 import com.gabi.pharminternat.dao.DAO;
 import com.gabi.pharminternat.model.PharmaFile;
@@ -26,7 +22,6 @@ import com.gabi.pharminternat.utils.Constant;
 import com.gabi.pharminternat.utils.PharmaFileAdapter;
 import com.gabi.pharminternat.utils.Utils;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -146,11 +141,11 @@ public class MainActivity extends ActionBarActivity
                     lastReview.setText(Utils.getDateTime());
 
                     if (pharmaFile.getTodoDate() != null &&
-                            pharmaFile.getTodoDate().after(Utils.currentMonday()) &&
-                            (pharmaFile.getTodoDate().before(Utils.nextMonday()) ||
-                                    pharmaFile.getTodoDate().equals(Utils.nextMonday())) &&
+                            pharmaFile.getTodoDate().after(Utils.currentWeek()) &&
+                            (pharmaFile.getTodoDate().before(Utils.nextWeek()) ||
+                                    pharmaFile.getTodoDate().equals(Utils.nextWeek())) &&
                             currDate.before(pharmaFile.getTodoDate()) &&
-                            currDate.after(Utils.currentMonday())) {
+                            currDate.after(Utils.currentWeek())) {
                         pharmaFileListView.getAdapter().getView(position, view, parent);
                     }
 

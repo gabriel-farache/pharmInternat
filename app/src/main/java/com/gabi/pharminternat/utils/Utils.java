@@ -34,10 +34,10 @@ public class Utils {
         return dateFormat.format(dateTime);
     }
 
-    public static Date currentMonday(){
+    public static Date currentWeek(){
         Calendar c = Calendar.getInstance();
-        c.setFirstDayOfWeek(Calendar.MONDAY);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.setFirstDayOfWeek(Calendar.SUNDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
@@ -46,15 +46,15 @@ public class Utils {
         return c.getTime();
     }
 
-    public static Date nextMonday(){
+    public static Date nextWeek(){
         Calendar c = Calendar.getInstance();
-        c.setFirstDayOfWeek(Calendar.MONDAY);
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        c.setFirstDayOfWeek(Calendar.SUNDAY);
+        c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        c.add(Calendar.DAY_OF_YEAR, 6);
         c.set(Calendar.HOUR_OF_DAY, 23);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
         c.set(Calendar.MILLISECOND, 0);
-        c.add(Calendar.DAY_OF_YEAR, 6);
 
         return c.getTime();
     }

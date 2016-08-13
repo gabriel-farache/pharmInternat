@@ -186,8 +186,8 @@ public class DAO extends SQLiteOpenHelper {
         ArrayList<PharmaFile> todoPharmaFiles = new ArrayList<PharmaFile>();
 
         try {
-            String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.currentMonday()),
-                    Utils.getDateTimeFromDate(Utils.nextMonday())};
+            String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.currentWeek()),
+                    Utils.getDateTimeFromDate(Utils.nextWeek())};
             todoPharmaFiles = this.getPharamaFiles(Constant.DAO_QUERY_SELECT_TODOFILES, whereClausesArgs);
         } catch (Exception e){
             e.printStackTrace();
@@ -199,7 +199,7 @@ public class DAO extends SQLiteOpenHelper {
         ArrayList<PharmaFile> latePharmaFiles = new ArrayList<PharmaFile>();
 
         try {
-            String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.currentMonday())};
+            String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.currentWeek())};
             latePharmaFiles = this.getPharamaFiles(Constant.DAO_QUERY_SELECT_LATEFILES, whereClausesArgs);
         } catch (Exception e){
             e.printStackTrace();
@@ -276,7 +276,7 @@ public class DAO extends SQLiteOpenHelper {
     }
 
     public void setTodoDate(Integer id) throws ParseException {
-        String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.nextMonday()), id.toString()};
+        String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.nextWeek()), id.toString()};
         try {
             this.myDatabase.execSQL(Constant.DAO_QUERY_UPDATE_TODO_DATE, whereClausesArgs);
         } catch (Exception e){
@@ -285,7 +285,7 @@ public class DAO extends SQLiteOpenHelper {
     }
 
     public void setTodoDate(String fileTitle) throws ParseException {
-        String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.nextMonday()), fileTitle};
+        String [] whereClausesArgs = {Utils.getDateTimeFromDate(Utils.nextWeek()), fileTitle};
         System.out.println("---> "+whereClausesArgs[0] + "   "+whereClausesArgs[1]);
         try {
             this.myDatabase.execSQL(Constant.DAO_QUERY_UPDATE_TODO_DATE_FROM_TITLE, whereClausesArgs);

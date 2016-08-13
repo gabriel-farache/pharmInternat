@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gabi.pharminternat.model.PharmaFile;
@@ -16,7 +14,6 @@ import com.example.gabi.main.R;
 import com.gabi.pharminternat.dao.DAO;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,11 +50,11 @@ public class PharmaFileAdapter extends ArrayAdapter<PharmaFile> {
         PharmaFile pharmaFile = getItem(position);
 
         if(pharmaFile.getTodoDate() != null &&
-                pharmaFile.getTodoDate().after(Utils.currentMonday()) &&
-                (pharmaFile.getTodoDate().before(Utils.nextMonday()) ||
-                        pharmaFile.getTodoDate().equals(Utils.nextMonday()))){
+                pharmaFile.getTodoDate().after(Utils.currentWeek()) &&
+                (pharmaFile.getTodoDate().before(Utils.nextWeek()) ||
+                        pharmaFile.getTodoDate().equals(Utils.nextWeek()))){
             if(pharmaFile.getLastReview().before(pharmaFile.getTodoDate()) &&
-                    pharmaFile.getLastReview().after(Utils.currentMonday()) ){
+                    pharmaFile.getLastReview().after(Utils.currentWeek()) ){
                 ((ViewGroup)this.viewHolder.star.getParent().getParent()).setBackgroundColor(Color.parseColor("#4caf50"));
             } else {
                 ((ViewGroup)this.viewHolder.star.getParent().getParent()).setBackgroundColor(Color.parseColor("#f8bbd0"));
@@ -97,7 +94,7 @@ public class PharmaFileAdapter extends ArrayAdapter<PharmaFile> {
                 for(int i = 0; i < pharmaFiles.size() && !fileFound; i++){
                     PharmaFile file = pharmaFiles.get(i);
                     if(file.getId() == fileId){
-                        file.setTodoDate(Utils.nextMonday());
+                        file.setTodoDate(Utils.nextWeek());
                         fileFound = true;
                     }
                 }
