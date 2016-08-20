@@ -30,7 +30,7 @@ public class Constant {
     public static final String DAO_QUERY_SELECT_PHARMASECTIONS = "SELECT * FROM PharmaSection";
     public static final String DAO_QUERY_SELECT_PHARMASECTION = "SELECT * FROM PharmaSection where section= ?";
     public static final String DAO_QUERY_SELECT_TODOFILES = "SELECT * FROM PharmaFile WHERE todoDate between ? and ? order by datetime(lastReview) ASC, section ASC, displayOrder ASC";
-    public static final String DAO_QUERY_SELECT_LATEFILES = "SELECT * FROM PharmaFile WHERE Datetime(todoDate) < ? and Datetime(lastReview) < Datetime(todoDate) order by datetime(lastReview) ASC, section ASC, displayOrder ASC";
+    public static final String DAO_QUERY_SELECT_LATEFILES = "SELECT * FROM PharmaFile WHERE Datetime(todoDate) < ? and Datetime(lastReview) < Datetime(todoDate, '-7 day') order by datetime(lastReview) ASC, section ASC, displayOrder ASC";
 
     public static final String DAO_QUERY_UPDATE_REVIEW_COUNTER = "UPDATE PharmaFile SET reviewCounter = reviewCounter + 1 where id = ?";
     public static final String DAO_QUERY_UPDATE_LAST_REVIEW_DATE = "UPDATE PharmaFile SET lastReview = ? where id = ?";
